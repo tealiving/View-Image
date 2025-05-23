@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>图片查看器</title>
+    <link rel="stylesheet" href="css/viewer.css">
+    <script src="js/lib/tiff.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>图片查看器</h1>
+            <div class="toolbar">
+                <button id="downloadBtn" title="下载图片"><span class="icon">↓</span></button>
+                <button id="rotateBtn" title="旋转图片"><span class="icon">⟳</span></button>
+                <button id="zoomInBtn" title="放大"><span class="icon">+</span></button>
+                <button id="zoomOutBtn" title="缩小"><span class="icon">-</span></button>
+                <button id="resetBtn" title="重置视图"><span class="icon">⟲</span></button>
+            </div>
+        </header>
+        
+        <div id="welcomeMessage" class="welcome-message" style="display: none;">
+            <h2>欢迎使用图片查看器扩展</h2>
+            <p>该扩展会自动拦截图片链接并在线预览，支持以下格式：</p>
+            <ul>
+                <li>PNG (.png)</li>
+                <li>JPEG (.jpg, .jpeg)</li>
+                <li>GIF (.gif)</li>
+                <li>BMP (.bmp)</li>
+                <li>TIFF (.tif, .tiff)</li>
+            </ul>
+            <p>您也可以在下方输入图片URL进行预览：</p>
+        </div>
+        
+        <div class="input-group">
+            <input type="text" id="imageUrl" placeholder="输入图片URL (例如: https://example.com/image.jpg)">
+            <button id="loadBtn">加载图片</button>
+        </div>
+        
+        <div class="input-group">
+            <input type="file" id="fileInput" accept="image/*">
+            <button id="loadFileBtn">加载文件</button>
+        </div>
+        
+        <div id="imageContainer">
+            <!-- 图片将在这里显示 -->
+            <div class="drop-zone" id="dropZone">
+                <p>将图片拖放到此处</p>
+            </div>
+        </div>
+        
+        <div id="imageInfo" class="image-info">
+            <!-- 图片信息将在这里显示 -->
+        </div>
+    </div>
+
+    <script src="js/viewer.js"></script>
+</body>
+</html> 

@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>图标生成器</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        h1 {
+            color: #4CAF50;
+        }
+        .preview {
+            display: flex;
+            gap: 20px;
+            margin: 20px 0;
+        }
+        .icon-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .icon {
+            border: 1px solid #ddd;
+            margin-bottom: 10px;
+        }
+        button {
+            padding: 8px 16px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+        a {
+            display: block;
+            margin: 10px 0;
+            color: #4CAF50;
+        }
+    </style>
+</head>
+<body>
+    <h1>图片查看器扩展图标生成器</h1>
+    <p>点击下面的按钮生成不同尺寸的图标，然后将它们保存到 chrome_extension/images 目录</p>
+    
+    <button id="generateBtn">生成图标</button>
+    
+    <div class="preview" id="preview"></div>
+    
+    <div id="downloadLinks"></div>
+    
+    <script>
+        document.getElementById('generateBtn').addEventListener('click', generateIcons);
+        
+        function generateIcons() {
+            const preview = document.getElementById('preview');
+            const downloadLinks = document.getElementById('downloadLinks');
+            
+            // 清空预览和下载链接
+            preview.innerHTML = '';
+            downloadLinks.innerHTML = '';
+            
+            // 创建不同尺寸的图标
+            const sizes = [16, 48, 128];
+            
+            sizes.forEach(size => {
+                const iconUrl = createIcon(size);
+                
+                // 创建预览
+                const container = document.createElement('div');
+                container.className = 'icon-container';
+                
+                const img = document.createElement('img');
+                img.src = iconUrl;
+                img.width = size;
+                img.height = size;
+                img.className = 'icon';
+                
+                const label = document.createElement('span');
+                label.textContent = `${size}x${size}`;
+                
+                container.appendChild(img);
+                container.appendChild(label);
+                preview.appendChild(container);
+                
+                // 创建下载链接
+                const link = document.createElement('a');
+                link.href = iconUrl;
+                link.download = `icon${size}.png`;
+                link.textContent = `下载 ${size}x${size} 图标`;
+                downloadLinks.appendChild(link);
+            });
+        }
+        
+        function createIcon(size) {
+            // 创建Canvas元素
+            const canvas = document.createElement('canvas');
+            canvas.width = size;
+            canvas.height = size;
+            const ctx = canvas.getContext('2d');
+            
+            // 绘制背景
+            ctx.fillStyle = '#4CAF50';
+            ctx.fillRect(0, 0, size, size);
+            
+            // 绘制图片图标
+            ctx.fillStyle = 'white';
+            const padding = Math.floor(size / 4);
+            ctx.fillRect(padding, padding, size - padding * 2, size - padding * 2);
+            
+            // 绘制对角线
+            ctx.strokeStyle = '#4CAF50';
+            ctx.lineWidth = Math.max(2, Math.floor(size / 16));
+            ctx.beginPath();
+            ctx.moveTo(padding, padding);
+            ctx.lineTo(size - padding, size - padding);
+            ctx.stroke();
+            ctx.beginPath();
+            ctx.moveTo(size - padding, padding);
+            ctx.lineTo(padding, size - padding);
+            ctx.stroke();
+            
+            // 获取数据URL
+            return canvas.toDataURL('image/png');
+        }
+    </script>
+</body>
+</html> 
